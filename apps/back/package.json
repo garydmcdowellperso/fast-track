@@ -1,0 +1,100 @@
+{
+  "name": "ps-back",
+  "description": "API Gateway",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "scripts": {
+    "transpile": "babel src --out-dir dist",
+    "build": "npm run transpile && node dist/server.js",
+    "dev": "NODE_ENV=dev nodemon --exec babel-node src/server.js",
+    "lint": "eslint .",
+    "format": "eslint --fix . && prettier --write '**/*.js' && echo 'format done.'",
+    "test:coverage": "jest --ci --reporters=default --reporters=jest-junit --detectOpenHandles --forceExit --coverage --verbose=false",
+    "test": "jest --verbose=true --collectCoverage false",
+    "sonar-scanner": "./node_modules/sonar-scanner/bin/sonar-scanner",
+    "prepare": "husky install"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "test/*"
+    ],
+    "delay": "1500"
+  },
+  "dependencies": {
+    "@babel/cli": "7.17.0",
+    "@babel/core": "7.17.2",
+    "@babel/node": "7.16.8",
+    "@babel/runtime": "7.17.2",
+    "@logtail/node": "^0.1.10",
+    "axios": "0.25.0",
+    "babel-preset-airbnb": "5.0.0",
+    "bcryptjs": "^2.4.3",
+    "core-js": "3.21.0",
+    "fastify": "3.27.1",
+    "fastify-blipp": "3.1.0",
+    "fastify-circuit-breaker": "1.1.0",
+    "fastify-cookie": "5.5.0",
+    "fastify-cors": "^6.0.2",
+    "fastify-helmet": "7.0.1",
+    "fastify-http-client": "1.0.0",
+    "fastify-mongodb": "4.1.1",
+    "fastify-oauth2": "4.5.0",
+    "fastify-plugin": "3.0.1",
+    "fastify-swagger": "4.15.0",
+    "jsonwebtoken": "8.5.1",
+    "kafkajs": "1.16.0",
+    "lightstep-opentelemetry-launcher-node": "1.0.0",
+    "lodash": "^4.17.21",
+    "make-promises-safe": "5.1.0",
+    "middie": "6.0.0",
+    "mjml": "4.12.0",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "moment-timezone": "0.5.34",
+    "mongodb": "4.3.1",
+    "mustache": "^4.2.0",
+    "nodemailer": "6.7.2",
+    "pusher": "5.0.1",
+    "regenerator-runtime": "0.13.9",
+    "rollbar": "^2.24.0",
+    "wait-console-input": "^0.1.7"
+  },
+  "devDependencies": {
+    "babel-eslint": "10.1.0",
+    "eslint": "8.9.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-babel": "5.3.1",
+    "eslint-plugin-import": "2.25.4",
+    "eslint-plugin-prettier": "4.0.0",
+    "husky": "^7.0.4",
+    "jest": "27.5.1",
+    "jest-junit": "^13.0.0",
+    "lint-staged": "12.3.3",
+    "nodemon": "2.0.15",
+    "prettier": "2.5.1",
+    "sonar-scanner": "^3.1.0"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "coverageReporters": [
+      "text",
+      "text-summary",
+      "cobertura",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "setupFiles": [
+      "./test/bootstrap.js"
+    ]
+  },
+  "transform": {
+    "^.+\\.[t|j]sx?$": "babel-jest"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
+  }
+}

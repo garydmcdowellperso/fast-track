@@ -1,0 +1,76 @@
+kind: pipeline
+name: outdated
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: npm outdated
+    image: node:16.13.0
+    commands:
+      - npm ci
+      - npm outdated
+
+trigger:
+  cron: [daily]
+---
+kind: pipeline
+name: GetToDaChoppa
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: test
+    image: node:alpine
+    commands:
+      - npm ci
+      - npm run test:coverage
+
+  - name: buildanddeploy
+    image: docker:dind
+    environment:
+      KEY:
+        from_secret: SSH_PRIVATE_KEY
+    volumes:
+      - name: dockersock
+        path: /var/run
+    commands:
+      - sleep 10 # give docker enough time to start
+      - docker login registry.gitlab.com -u garydmcdowell1 -p glpat-vccqgHLrdFqsv2yecqcf
+      - DOCKER_BUILDKIT=1 docker build . --cache-from registry.gitlab.com/garydmcdowell1/ps-back:latest -t registry.gitlab.com/garydmcdowell1/ps-back:"$DRONE_COMMIT_SHA" -t registry.gitlab.com/garydmcdowell1/ps-back:latest
+      - docker push registry.gitlab.com/garydmcdowell1/ps-back:"$DRONE_COMMIT_SHA"
+      - docker push registry.gitlab.com/garydmcdowell1/ps-back:latest
+      - apk update -qq
+      - apk add -qq git curl
+      - which ssh-agent || ( apt-apk get -qq openssh-client )
+      - eval $(ssh-agent -s)
+      - echo "$KEY" | ssh-add -
+      - mkdir -p ~/.ssh
+      - "[[ -f /.dockerenv ]] && echo -e \"Host *\\n\\tStrictHostKeyChecking no\\n\\n\" > ~/.ssh/config"
+      - tag=":$DRONE_COMMIT_SHA"
+      - ssh root@163.172.182.203 docker pull registry.gitlab.com/garydmcdowell1/ps-back:"$DRONE_COMMIT_SHA"
+      - ssh root@163.172.182.203 docker service update --image registry.gitlab.com/garydmcdowell1/ps-back:"$DRONE_COMMIT_SHA" api
+
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook: https://hooks.slack.com/services/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
+      channel: releases
+    depends_on:
+      - buildanddeploy
+      - test
+
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
