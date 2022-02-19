@@ -47,6 +47,31 @@ const routes = async (fastify) => {
   );
 
   fastify.post(
+    "/github",
+    {
+      config,
+      schema: {
+        description: "github integration",
+        tags: ["api"],
+      },
+    },
+    async (request) => {
+      fastify.log.info("[src#api#github] Entering");
+
+      fastify.log.info(
+        {
+          body: request.body,
+        },
+        "github"
+      );
+
+      const inputs = { ...request.body };
+
+      return "ok";
+    }
+  );
+
+  fastify.post(
     "/jira",
     {
       config,

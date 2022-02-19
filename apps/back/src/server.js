@@ -4,7 +4,6 @@ import "make-promises-safe";
 import helmet from "fastify-helmet";
 import fastify from "fastify";
 import blipp from "fastify-blipp";
-import client from "fastify-http-client";
 import swagger from "fastify-swagger";
 import circuitBreaker from "fastify-circuit-breaker";
 import oauthPlugin from "fastify-oauth2";
@@ -59,7 +58,7 @@ singleton.register(oauthPlugin, {
   // register a fastify url to start the redirect flow
   startRedirectPath: "/login/google",
   // facebook redirect here after the user login
-  callbackUri: `https://${config.simpatico.hostname}/api/v1/login/google/callback`,
+  callbackUri: `https://${config.fasttrack.hostname}/api/v1/login/google/callback`,
 });
 
 // Print routes
@@ -87,7 +86,7 @@ singleton.register(swagger, {
     schemes: ["http"],
     consumes: ["application/json"],
     produces: ["application/json"],
-    tags: [{ name: "api", description: "simpatico related end-points" }],
+    tags: [{ name: "api", description: "fast track related end-points" }],
   },
   exposeRoute: true,
 });
