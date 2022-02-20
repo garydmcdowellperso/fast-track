@@ -20,16 +20,16 @@ async function CreatePushGitlab(
   { eventRepository }
 ) {
   if (!object_kind) {
-    throw new Error("No leagueId");
+    throw new Error("No object_kind");
   }
   if (!event_name) {
-    throw new Error("No created_at");
+    throw new Error("No event_name");
   }
   if (!before) {
-    throw new Error("No updated_at");
+    throw new Error("No before");
   }
   if (!after) {
-    throw new Error("No clubs");
+    throw new Error("No after");
   }
 
   // Create a generic event to capture this Gitlab Push
@@ -71,10 +71,8 @@ async function CreatePushGitlab(
       if (commit.title.includes("Merge")) {
         // Split it apart
         const parts = commit.title.split(" ");
-        console.log("parts", parts);
         ticket = parts[2];
         ticket = ticket.replace(/['"]+/g, "");
-        console.log("ticket", ticket);
       }
     }
 
@@ -109,6 +107,8 @@ async function CreatePushGitlab(
   // Update any previous events with the info we now have
   if (refs[2] !== "main") {
     const oldEvents = await eventRepository.getByTicket(refs[2]);
+    console.log("HERE", oldEvents);
+
     for (const oe of oldEvents) {
       if (oe.type === "work_started") {
         delete oe._id;

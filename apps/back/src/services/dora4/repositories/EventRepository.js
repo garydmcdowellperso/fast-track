@@ -3,20 +3,12 @@ class EventRepository {
     this.repository = repository;
   }
 
-  persist(clubEntity) {
-    return this.repository.persist(clubEntity);
+  persist(eventEntity) {
+    return this.repository.persist(eventEntity);
   }
 
-  merge(clubEntity) {
-    return this.repository.merge(clubEntity);
-  }
-
-  remove(clubId) {
-    return this.repository.remove(clubId);
-  }
-
-  get(leagueId, teamId) {
-    return this.repository.get(leagueId, teamId);
+  merge(eventEntity) {
+    return this.repository.merge(eventEntity);
   }
 
   getByDate(from, to) {
@@ -29,10 +21,6 @@ class EventRepository {
 
   getByTicket(ticket) {
     return this.repository.getByTicket(ticket);
-  }
-
-  assign(fixtureEntity) {
-    return this.repository.assign(fixtureEntity);
   }
 
   insert(eventEntity) {

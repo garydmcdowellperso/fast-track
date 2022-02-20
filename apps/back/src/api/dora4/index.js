@@ -15,6 +15,38 @@ const {
  */
 const routes = async (fastify) => {
   fastify.post(
+    "/github",
+    {
+      config,
+      schema: {
+        description: "github integration",
+        tags: ["api"],
+      },
+    },
+    async (request) => {
+      fastify.log.info("[src#api#github] Entering");
+
+      fastify.log.info(
+        {
+          body: request.body,
+        },
+        "github"
+      );
+
+      const inputs = { ...request.body };
+
+      if (request.body.ref) {
+        await DORA4Controller.githubPush(inputs);
+      }
+      if (request.body.action === "opened") {
+        await DORA4Controller.githubPullRequest(inputs);
+      }
+
+      return "ok";
+    }
+  );
+
+  fastify.post(
     "/rollBar",
     {
       config,
@@ -41,31 +73,6 @@ const routes = async (fastify) => {
       ) {
         await DORA4Controller.recordRollBarError(inputs);
       }
-
-      return "ok";
-    }
-  );
-
-  fastify.post(
-    "/github",
-    {
-      config,
-      schema: {
-        description: "github integration",
-        tags: ["api"],
-      },
-    },
-    async (request) => {
-      fastify.log.info("[src#api#github] Entering");
-
-      fastify.log.info(
-        {
-          body: request.body,
-        },
-        "github"
-      );
-
-      const inputs = { ...request.body };
 
       return "ok";
     }

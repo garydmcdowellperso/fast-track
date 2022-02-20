@@ -680,7 +680,7 @@
   dependencies:
     "@mantine/ssr" "3.6.7"
 
-"@mantine/notifications@3.6.7":
+"@mantine/notifications@^3.6.7":
   "integrity" "sha512-NRhyTGSYkKn5AbxFNBajQ4iAQN3D4n2fC548SCVj3bhvRu7hm50xK+rfHU1i0wg6WsNhpW7Ok1dNfOiFYjWwvQ=="
   "resolved" "https://registry.npmjs.org/@mantine/notifications/-/notifications-3.6.7.tgz"
   "version" "3.6.7"
