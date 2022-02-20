@@ -1,5 +1,7 @@
 import CreatePushGitlab from "../use_cases/CreatePushGitlab";
+import CreatePushGithub from "../use_cases/CreatePushGithub";
 import CreateMergeRequestGitlab from "../use_cases/CreateMergeRequestGitlab";
+import CreatePullRequestGithub from "../use_cases/CreatePullRequestGithub";
 import FetchEventsByTicket from "../use_cases/FetchEventsByTicket";
 import FetchEventsByProject from "../use_cases/FetchEventsByProject";
 import FetchEventsByDate from "../use_cases/FetchEventsByDate";
@@ -83,6 +85,46 @@ async function gitlabPush(inputs) {
     commits,
     total_commits_count,
     repository,
+    {
+      eventRepository,
+    }
+  );
+}
+
+async function githubPush(inputs) {
+  // Inputs
+  const {
+    ref,
+    before,
+    after,
+    repository,
+    pusher,
+    sender,
+    created,
+    deleted,
+    forced,
+    base_ref,
+    compare,
+    commits,
+    head_commit,
+  } = inputs;
+
+  // Convert to generic event depending on data
+
+  return CreatePushGithub(
+    ref,
+    before,
+    after,
+    repository,
+    pusher,
+    sender,
+    created,
+    deleted,
+    forced,
+    base_ref,
+    compare,
+    commits,
+    head_commit,
     {
       eventRepository,
     }
@@ -321,6 +363,24 @@ async function changeRateFailure(inputs) {
   return crfSerializer.serialize(response);
 }
 
+async function githubPullRequest(inputs) {
+  // Inputs
+  const { action, number, pull_request, repository, sender } = inputs;
+
+  // Convert to generic event depending on data
+
+  return CreatePullRequestGithub(
+    action,
+    number,
+    pull_request,
+    repository,
+    sender,
+    {
+      eventRepository,
+    }
+  );
+}
+
 module.exports = {
   jiraWorkStarted,
   gitlabPush,
@@ -330,4 +390,6 @@ module.exports = {
   deploymentFrequency,
   changeRateFailure,
   recordRollBarError,
+  githubPush,
+  githubPullRequest,
 };
