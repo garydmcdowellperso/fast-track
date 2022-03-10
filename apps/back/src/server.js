@@ -6,9 +6,7 @@ import fastify from "fastify";
 import blipp from "fastify-blipp";
 import swagger from "fastify-swagger";
 import circuitBreaker from "fastify-circuit-breaker";
-import oauthPlugin from "fastify-oauth2";
 import middie from "middie";
-import { Logtail } from "@logtail/node";
 
 // Global config params
 import config from "./config";
@@ -17,12 +15,8 @@ import stream from "./plugins/stream";
 
 import dora4 from "./api/dora4";
 
-import Rollbar from "rollbar";
-
-const logtail = new Logtail("L58RXn8mZjZa7uEViwxaoy4B");
-
 const singleton = fastify({
-  logger: logtail,
+  logger: true,
   prettyPrint: true,
   exposeHeadRoutes: true,
 });
@@ -31,39 +25,12 @@ singleton.register(require("fastify-cors"), {
   // put your options here
 });
 
-if (process.env.NODE_ENV !== "dev") {
-  singleton.log.info(`Initialise rollbar for exceptions`);
-
-  // Send errors to rollbar
-  new Rollbar({
-    accessToken: config.rollbar.token,
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-  });
-}
-
 singleton.register(middie);
 
 // Libs
 singleton.register(require("fastify-cookie"), {
   secret: "Dinosaur10!", // for cookies signature
   parseOptions: {}, // options for parsing cookies
-});
-
-singleton.register(oauthPlugin, {
-  name: "googleOAuth2",
-  scope: ["openid profile email"],
-  credentials: {
-    client: {
-      id: "933256841958-27u37103pk4rkaqogir75gk57qs07lgh.apps.googleusercontent.com",
-      secret: "ry6R_IOmADoNfXTySD-5nQIV",
-    },
-    auth: oauthPlugin.GOOGLE_CONFIGURATION,
-  },
-  // register a fastify url to start the redirect flow
-  startRedirectPath: "/login/google",
-  // facebook redirect here after the user login
-  callbackUri: `https://${config.fasttrack.hostname}/api/v1/login/google/callback`,
 });
 
 // Print routes

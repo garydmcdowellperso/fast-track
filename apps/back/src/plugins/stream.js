@@ -4,17 +4,17 @@ import kafkajs from "kafkajs";
 const streamPlugin = fp(async (fastify) => {
   let producer;
   try {
+    fastify.log.info("Connecting to kafka");
     const connection = new kafkajs.Kafka({
-      clientId: "ps",
-      brokers: [
-        "1f850f03-958f-425e-97a4-88b5194cf15d.pub.instances.scw.cloud:9092",
-      ],
+      clientId: "fasttrack",
+      brokers: ["localhost:9092"],
     });
 
     if (connection) {
       producer = connection.producer();
 
       await producer.connect();
+      fastify.log.info("Producer connected");
     }
   } catch (e) {
     console.log("error connecting to kafka", e);

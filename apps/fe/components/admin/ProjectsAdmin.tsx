@@ -37,7 +37,7 @@ export default function ProjectsAdmin() {
     try {
       setProjects({ projects: projects.projects, isFetching: true });
       const response = await axios.get(
-        "https://ed73-90-243-155-90.ngrok.io/v1/getAllProjects"
+        "http://localhost:5000/v1/getAllProjects"
       );
       setProjects({ projects: response.data, isFetching: false });
     } catch (e) {

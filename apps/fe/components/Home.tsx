@@ -46,7 +46,7 @@ export default function Home() {
       try {
         setProjects({ projects: projects.projects, isFetching: true });
         const response = await axios.get(
-          "https://ed73-90-243-155-90.ngrok.io/v1/getAllProjects"
+          "http://localhost:5000/v1/getAllProjects"
         );
         const selectProjects = [];
         for (const project of response.data) {
@@ -64,7 +64,7 @@ export default function Home() {
       try {
         setTeams({ teams: teams.teams, isFetching: true });
         const response = await axios.get(
-          "https://ed73-90-243-155-90.ngrok.io/v1/getAllTeams"
+          "http://localhost:5000/v1/getAllTeams"
         );
         const selectTeams = [];
         for (const team of response.data) {

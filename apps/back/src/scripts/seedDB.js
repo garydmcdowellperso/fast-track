@@ -16,11 +16,11 @@ async function run() {
   }
 
   if (myArgs[0] === "prod") {
-    uri = "mongodb://admin:e7VBgeJ3PH86JcGx@163.172.182.203:27017";
+    uri = "mongodb://admin:XXXXXXX@163.172.182.203:27017";
     url = "";
   } else {
     uri = "mongodb://localhost:27017";
-    url = "https://ed73-90-243-155-90.ngrok.io";
+    url = "http://localhost:5000";
   }
 
   client = new MongoClient(uri);

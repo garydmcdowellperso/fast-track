@@ -164,7 +164,7 @@ export default function TeamsAdmin() {
       try {
         setCreating({ success: null, isFetching: true });
         const response = await axios.post(
-          "https://ed73-90-243-155-90.ngrok.io/v1/createTeam",
+          "http://localhost:5000/v1/createTeam",
           {
             teamName,
             teamCollaborators,

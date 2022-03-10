@@ -30,7 +30,7 @@ export default function LeadTimeWidget(props) {
         try {
           setData({ data: data.data, isFetching: true });
           const response = await axios.get(
-            `https://ed73-90-243-155-90.ngrok.io/v1/getLeadTime?selectedProject=${selectedProject}&selectedTeam=${selectedTeam}&from=${from}&to=${to}`
+            `http://localhost:5000/v1/getLeadTime?selectedProject=${selectedProject}&selectedTeam=${selectedTeam}&from=${from}&to=${to}`
           );
           setData({ data: response.data, isFetching: false });
         } catch (e) {

@@ -23,7 +23,7 @@ export default function LeadTime(props) {
       try {
         setData({ projects: data.projects, isFetching: true });
         const response = await axios.get(
-          "https://ed73-90-243-155-90.ngrok.io/v1/projectInformation?project=ps-front"
+          "http://localhost:5000/v1/projectInformation?project=ps-front"
         );
         setData({ projects: response.data, isFetching: false });
       } catch (e) {
