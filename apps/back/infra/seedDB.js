@@ -5,7 +5,13 @@ const { jira1 } = require("./data/jira");
 const { gitlab_commit, merged, merge_request } = require("./data/gitlab");
 const { failure } = require("./data/rollbar");
 
-const collections = ["events", "contributors", "projects", "teams"];
+const collections = [
+  "sequences",
+  "events",
+  "contributors",
+  "projects",
+  "teams",
+];
 
 async function run() {
   let client, uri, url;
@@ -34,6 +40,27 @@ async function run() {
     for (const col of collections) {
       await database.collection(col).deleteMany({});
     }
+
+    // Reset sequences
+    // Reset sequences
+    const collectionSequences = database.collection("sequences");
+
+    await collectionSequences.insertOne({
+      _id: "events",
+      sequence_value: 1,
+    });
+    await collectionSequences.insertOne({
+      _id: "teams",
+      sequence_value: 1,
+    });
+    await collectionSequences.insertOne({
+      _id: "projects",
+      sequence_value: 1,
+    });
+    await collectionSequences.insertOne({
+      _id: "contributors",
+      sequence_value: 1,
+    });
 
     await axios.post(`${url}/v1/jira`, jira1);
     await axios.post(`${url}/v1/gitlab`, gitlab_commit);
