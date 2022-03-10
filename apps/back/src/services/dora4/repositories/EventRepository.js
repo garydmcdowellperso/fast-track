@@ -11,6 +11,10 @@ class EventRepository {
     return this.repository.merge(eventEntity);
   }
 
+  getByHash(hash) {
+    return this.repository.getByHash(hash);
+  }
+
   getByDate(from, to) {
     return this.repository.getByDate(from, to);
   }
@@ -29,6 +33,10 @@ class EventRepository {
 
   find() {
     return this.repository.find();
+  }
+
+  getByProjectAndDates(selectedProject, from, to) {
+    return this.repository.getByProjectAndDates(selectedProject, from, to);
   }
 }
 

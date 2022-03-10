@@ -1,7 +1,7 @@
 {
-  "name": "ps-back",
+  "name": "fast-track-back-end",
   "description": "API Gateway",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "src/server.js",
   "scripts": {
     "transpile": "babel src --out-dir dist",
@@ -10,9 +10,8 @@
     "lint": "eslint .",
     "format": "eslint --fix . && prettier --write '**/*.js' && echo 'format done.'",
     "test:coverage": "jest --ci --reporters=default --reporters=jest-junit --detectOpenHandles --forceExit --coverage --verbose=false",
-    "test": "jest --verbose=true --collectCoverage false",
-    "sonar-scanner": "./node_modules/sonar-scanner/bin/sonar-scanner",
-    "prepare": "husky install"
+    "test": "jest --verbose=true --passWithNoTests --collectCoverage false",
+    "sonar-scanner": "./node_modules/sonar-scanner/bin/sonar-scanner"
   },
   "nodemonConfig": {
     "ignore": [
@@ -54,6 +53,7 @@
     "mongodb": "4.3.1",
     "mustache": "^4.2.0",
     "nodemailer": "6.7.2",
+    "object-hash": "^3.0.0",
     "pusher": "5.0.1",
     "regenerator-runtime": "0.13.9",
     "rollbar": "^2.24.0",

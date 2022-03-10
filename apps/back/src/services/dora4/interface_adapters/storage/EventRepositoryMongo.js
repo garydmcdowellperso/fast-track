@@ -44,15 +44,8 @@ class EventRepositoryMongo {
     return this.collection.replaceOne({ id: event.id }, event);
   }
 
-  remove(fixture) {
-    return this.collection.replaceOne({ id: fixture.id }, fixture);
-  }
-
-  get(leagueId, teamId) {
-    return this.collection
-      .find({ leagueId, $or: [{ "home.id": teamId }, { "away.id": teamId }] })
-      .sort({ date: 1 })
-      .toArray();
+  getByHash(hash) {
+    return this.collection.findOne({ hashValue: hash });
   }
 
   getByDate(from, to) {
@@ -75,15 +68,22 @@ class EventRepositoryMongo {
       .toArray();
   }
 
-  assign(fixtureEntities) {
-    const ff = fixtureEntities.map(async (fixture) => {
-      const augmentedEntity = {
-        ...fixture,
-        id: await this._getValueForNextSequence(),
-      };
-      return augmentedEntity;
-    });
-    return Promise.all(ff);
+  getByProjectAndDates(selectedProject, from, to) {
+    if (selectedProject !== "null") {
+      return this.collection
+        .find({
+          project: selectedProject,
+          creation_date: { $gte: from, $lte: to },
+        })
+        .sort({ creation_date: 1 })
+        .toArray();
+    }
+    return this.collection
+      .find({
+        creation_date: { $gte: from, $lte: to },
+      })
+      .sort({ creation_date: 1 })
+      .toArray();
   }
 
   insert(eventEntity) {
@@ -91,7 +91,7 @@ class EventRepositoryMongo {
   }
 
   find() {
-    return this.collection.find({ deleted: false }).toArray();
+    return this.collection.find({}).toArray();
   }
 }
 

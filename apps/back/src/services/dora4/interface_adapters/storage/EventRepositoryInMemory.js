@@ -22,6 +22,11 @@ class EventRepositoryInMemory {
     return Promise.resolve(row);
   }
 
+  getByHash(hash) {
+    const events = this._dataAsArray();
+    return Promise.resolve(events.find((event) => event.hashValue === hash));
+  }
+
   getByDate(from, to) {
     const events = this._dataAsArray();
     return Promise.resolve(

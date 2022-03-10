@@ -2,6 +2,7 @@ class Event {
   constructor(
     type,
     data,
+    hashValue,
     creation_date,
     branch,
     ticket,
@@ -11,12 +12,13 @@ class Event {
   ) {
     this.type = type;
     this.data = data;
+    this.hashValue = hashValue;
+    this.creation_date = creation_date;
     this.branch = branch;
     this.ticket = ticket;
     this.project = project;
     this.author = author;
     this.id = id;
-    this.creation_date = creation_date;
   }
 }
 

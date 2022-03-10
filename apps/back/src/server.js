@@ -13,6 +13,7 @@ import { Logtail } from "@logtail/node";
 // Global config params
 import config from "./config";
 import app from "./plugins/app";
+import stream from "./plugins/stream";
 
 import dora4 from "./api/dora4";
 
@@ -24,6 +25,10 @@ const singleton = fastify({
   logger: logtail,
   prettyPrint: true,
   exposeHeadRoutes: true,
+});
+
+singleton.register(require("fastify-cors"), {
+  // put your options here
 });
 
 if (process.env.NODE_ENV !== "dev") {
@@ -72,6 +77,7 @@ singleton.register(helmet, {
 
 // Plugins
 singleton.register(app);
+singleton.register(stream);
 
 // Swagger doc
 singleton.register(swagger, {
