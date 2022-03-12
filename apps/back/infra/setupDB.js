@@ -8,6 +8,25 @@ const collections = [
   "teams",
 ];
 
+const theSequences = [
+  {
+    _id: "events",
+    sequence_value: 1,
+  },
+  {
+    _id: "teams",
+    sequence_value: 1,
+  },
+  {
+    _id: "projects",
+    sequence_value: 1,
+  },
+  {
+    _id: "contributors",
+    sequence_value: 1,
+  },
+];
+
 async function run() {
   let client, uri, url;
   const myArgs = process.argv.slice(2);
@@ -37,22 +56,7 @@ async function run() {
     // Reset sequences
     const collectionSequences = database.collection("sequences");
 
-    await collectionSequences.insertOne({
-      _id: "events",
-      sequence_value: 1,
-    });
-    await collectionSequences.insertOne({
-      _id: "teams",
-      sequence_value: 1,
-    });
-    await collectionSequences.insertOne({
-      _id: "projects",
-      sequence_value: 1,
-    });
-    await collectionSequences.insertOne({
-      _id: "contributors",
-      sequence_value: 1,
-    });
+    await collectionSequences.insertMany(theSequences);
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
