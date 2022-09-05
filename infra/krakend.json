@@ -1,0 +1,171 @@
+{
+  "version": 3,
+  "extra_config": {
+    "telemetry/logging": {
+      "level": "DEBUG",
+      "prefix": "[KRAKEND]",
+      "syslog": true,
+      "stdout": true,
+      "format": "custom",
+      "custom_format": "%{message}"
+    },
+    "telemetry/opencensus": {
+        "exporters": {
+          "jaeger": {
+          "endpoint": "http://127.0.0.114268/api/traces",
+          "service_name":"krakend"
+        }
+      }
+    },
+    "security/cors": {
+      "allow_origins": ["http://localhost:3000", "http://127.0.0.1:3000", "http://127.0.0.1:3001"],
+      "input_headers": [
+        "GET",
+        "HEAD",
+        "POST",
+        "PUT",
+        "DELETE",
+        "CONNECT",
+        "OPTIONS",
+        "TRACE",
+        "PATCH"
+      ],
+      "allow_credentials": true,
+      "debug": true
+    }
+  },
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "name": "fast-track",
+  "endpoints": [
+    {
+      "endpoint": "/v1/jira",
+      "method": "POST",
+      "extra_config": {},
+      "input_headers": [
+        "Access-Control-Request-Method",
+        "Sec-Fetch-Dest",
+        "Sec-Fetch-Mode",
+        "Sec-Fetch-Site",
+        "Origin",
+        "Accept-Encoding",
+        "Cookie",
+        "Content-Type",
+        "Host",
+        "User-Agent",
+        "X-Forwarded-For",  
+        "X-Forwarded-Host",
+        "X-Forwarded-Via"
+      ],
+      "backend": [
+        {
+          "host": ["kafka://"],
+          "url_pattern": "",
+          "disable_host_sanitize": true,
+          "extra_config": {
+            "backend/pubsub/publisher": {
+              "topic_url": "jira"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/github",
+      "method": "POST",
+      "extra_config": {},
+      "input_headers": [
+        "Access-Control-Request-Method",
+        "Sec-Fetch-Dest",
+        "Sec-Fetch-Mode",
+        "Sec-Fetch-Site",
+        "Origin",
+        "Accept-Encoding",
+        "Cookie",
+        "Content-Type",
+        "Host",
+        "User-Agent",
+        "X-Forwarded-For",  
+        "X-Forwarded-Host",
+        "X-Forwarded-Via"
+      ],
+      "backend": [
+        {
+          "host": ["kafka://"],
+          "url_pattern": "",
+          "disable_host_sanitize": true,
+          "extra_config": {
+            "backend/pubsub/publisher": {
+              "topic_url": "github"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/rollbar",
+      "method": "POST",
+      "extra_config": {},
+      "input_headers": [
+        "Access-Control-Request-Method",
+        "Sec-Fetch-Dest",
+        "Sec-Fetch-Mode",
+        "Sec-Fetch-Site",
+        "Origin",
+        "Accept-Encoding",
+        "Cookie",
+        "Content-Type",
+        "Host",
+        "User-Agent",
+        "X-Forwarded-For",  
+        "X-Forwarded-Host",
+        "X-Forwarded-Via"
+      ],
+      "backend": [
+        {
+          "host": ["kafka://"],
+          "url_pattern": "",
+          "disable_host_sanitize": true,
+          "extra_config": {
+            "backend/pubsub/publisher": {
+              "topic_url": "rollbar"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/gitlab",
+      "method": "POST",
+      "extra_config": {},
+      "input_headers": [
+        "Access-Control-Request-Method",
+        "Sec-Fetch-Dest",
+        "Sec-Fetch-Mode",
+        "Sec-Fetch-Site",
+        "Origin",
+        "Accept-Encoding",
+        "Cookie",
+        "Content-Type",
+        "Host",
+        "User-Agent",
+        "X-Forwarded-For",  
+        "X-Forwarded-Host",
+        "X-Forwarded-Via"
+      ],
+      "backend": [
+        {
+          "host": ["kafka://"],
+          "url_pattern": "",
+          "disable_host_sanitize": true,
+          "extra_config": {
+            "backend/pubsub/publisher": {
+              "topic_url": "gitlab"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
