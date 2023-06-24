@@ -2,6 +2,8 @@
 
 Your Dora4 metrics off-the-shelf
 
+![Architecture](https://github.com/garydmcdowellperso/fast-track/blob/main/Architecture.png?raw=true)
+
 # Local development (WIP)
 
 You will need to run locally a mongodb and a redpanda streaming system (this is a lightweight kafka and is compatible with existing kafka clients)(https://www.mongodb.com/, https://redpanda.com/)
