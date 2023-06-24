@@ -1,6 +1,6 @@
 # Fast Track
 
-Your Dora4 metrics off-the-shelf
+Your Dora4 metrics off-the-shelf. Built by Engineering Managers for Engineering Managers
 
 ![Architecture](https://github.com/garydmcdowellperso/fast-track/blob/main/Architecture.png?raw=true)
 
