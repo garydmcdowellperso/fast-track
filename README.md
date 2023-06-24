@@ -1,6 +1,8 @@
 # Fast Track
 
-Your Dora4 metrics off-the-shelf
+Your Dora4 metrics off-the-shelf. Built by Engineering Managers for Engineering Managers
+
+![Architecture](https://github.com/garydmcdowellperso/fast-track/blob/main/Architecture.png?raw=true)
 
 # Local development (WIP)
 
@@ -14,8 +16,7 @@ The routes are being converted to use the redpanda streaming service than to imp
 
 In any case, before being able to use the system you also need to deploy redpanda locally:
 
-`docker run -D --pull=always --name=redpanda-1 --rm -p 9092:9092 -p 9644:9644 docker.vectorized.io/vectorized/redpanda:latest redpanda start --overprovisioned --smp 1  --memory 512M --reserve-memory 0M --node-id 0 --check=false`
-
+`docker run -D --pull=always --name=redpanda-1 --rm -p 9092:9092 -p 9644:9644 docker.vectorized.io/vectorized/redpanda:latest redpanda start --overprovisioned --smp 1 --memory 512M --reserve-memory 0M --node-id 0 --check=false`
 
 You can then setup your database (create the collectons and sequences for the data)
 
@@ -39,7 +40,7 @@ Then installing at the top level the deps:
 
 You can now start things up with:
 
-`npm run dev` 
+`npm run dev`
 
 and Turbo repo will start all projects under apps - under the hood it merely calls the same name script in each app directory
 
@@ -49,7 +50,7 @@ You can navigate to the UI with:
 
 The backend is running on:
 
-`http://localhost:5000`
+`https://2650-86-73-46-241.ngrok-free.app`
 
 If you want to reset the data at any point you can re-run seedDB
 
@@ -58,7 +59,6 @@ If you want to reset the data at any point you can re-run seedDB
 Is a classic nextjs React app (https://nextjs.org/) and is using the mantine UI library (https://mantine.dev/). It's work in progress and will look to add swr (https://swr.vercel.app/) and possibly vitest (https://vitest.dev/)
 
 Turborepo has close links with Vercel and therefore NextJS, so the ecosystem is good at caching things and deciding only on what to build. If you register a free account with Vercel it can handle all this pretty seemlessly (instructions here: https://turborepo.org/docs/features/remote-caching)
-
 
 # The back (back)
 
