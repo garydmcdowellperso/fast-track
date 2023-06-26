@@ -61,6 +61,7 @@ async function run() {
       sequence_value: 1,
     });
 
+    /*
     await axios.post(`${url}/v1/jira`, jira1);
     setTimeout(async () => {
       await axios.post(`${url}/v1/gitlab`, gitlab_commit);
@@ -74,10 +75,12 @@ async function run() {
     setTimeout(async () => {
       await axios.post(`${url}/v1/rollBar`, failure);
     }, 4000);
+    */
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
   }
+  
 }
 
 run().catch(console.dir);
